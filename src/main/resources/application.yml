@@ -1,0 +1,52 @@
+#设置数据源
+spring:
+    datasource:
+        username: root
+        password: lk123456Q$
+        #mysql驱动8.0以上的版本需指定时区
+        url: jdbc:mysql://localhost:3306/db_bms?serverTimezone=GMT%2B8
+        driver-class-name: com.mysql.jdbc.Driver
+        #使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+
+        #数据源的其他配置
+        initialSize: 8
+        minIdle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatement: true
+
+        #配置监控统计拦截filters，去掉后监控界面sql无法统计，“wall"用于防火墙
+        filter: stat,wall,logback
+        maxPoolPreparedStatementPerConnectionSize: 25
+        useGlobalDataSourceStat: true
+        ConnectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+
+
+
+
+
+
+#配置mybatis的配置文件
+mybatis:
+#核心配置文件
+   #config-location: classpath:mybatisConfig/mybatis_config.xml
+##mapper映射文件
+    mapper-locations: classpath:mybatisConfig/mappers/*.xml
+
+
+
+
+
+
+
+logging:
+    level:
+      com.lkq.billmanagesystem.dao: debug

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lkq.billmanagesystem.dao.SupplierMapper">
+
+    <select id="getSuppliers" resultType="com.lkq.billmanagesystem.entities.Supplier" >
+
+     select * from t_supplier where 1=1
+
+     <if test='supplierName != null and supplierName != " " '>
+
+         <!--#{} 传入值时，sql解析时，参数是带引号的，而${}穿入值，sql解析时，参数是不带引号的.${}容易引起sql注入}-->
+         and supplier_name like  '%${supplierName}%'
+
+     </if>
+
+    </select>
+
+
+
+    <select id="findSupplierBySid" parameterType="java.lang.Integer"  resultType="com.lkq.billmanagesystem.entities.Supplier">
+
+       select * from t_supplier where sid = #{sid}
+
+    </select>
+
+
+
+    <insert id="addSupplier"  parameterType="com.lkq.billmanagesystem.entities.Supplier">
+
+     insert into `t_supplier` (
+      `sid`,
+      `supplier_code`,
+      `supplier_name`,
+      `contact`,
+      `phone`,
+      `address`,
+      `fax`,
+      `description`,
+      `create_date`
+    )
+    values(
+     #{sid},
+    #{supplierCode},
+    #{supplierName},
+    #{contact},
+    #{phone},
+    #{address},
+    #{fax},
+    #{description},
+    now()
+    )
+
+    </insert>
+
+    <update id="updateSupplier"  parameterType="com.lkq.billmanagesystem.entities.Supplier" >
+
+     UPDATE t_supplier SET
+         `sid` = #{sid},
+         `supplier_code` = #{supplierCode},
+          supplier_name = #{supplierName},
+         `contact` = #{contact},
+         `phone` = #{phone},
+         `address` = #{address},
+         `fax` = #{fax},
+         `description` = #{description},
+         `create_date` = now()
+     WHERE `sid` = #{sid}
+
+    </update>
+
+
+    <delete id="deleteSupplierById" parameterType="java.lang.Integer">
+
+        delete  from  t_supplier where  sid = #{sid};
+
+    </delete>
+
+
+
+
+
+
+
+</mapper>

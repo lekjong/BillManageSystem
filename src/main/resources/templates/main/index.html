@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:replace="main/public :: head_title" >
+</head>
+
+<body>
+
+<!--头部-->
+<header th:replace="main/public :: head_right" class="publicHeader">
+</header>
+
+<!--时间-->
+<section  th:replace="main/public :: public_time"  class="publicTime">
+</section>
+
+<!--主体内容-->
+<section class="publicMian" >
+    <!--引入页面时传入参数，激活对应的列表栏-->
+    <div class="left" th:replace="main/public :: main_left(activeParam='main')">
+    </div>
+    <div class="right">
+        <img class="wColck" th:src="@{/img/lockOn.jpg}" src="../img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2 th:text="${session.loginUser.username}">Admin</h2>
+            <p>欢迎来到BMS账单管理系统!</p>
+			<span id="hours"></span>
+        </div>
+    </div>
+</section>
+<footer class="footer" th:replace="main/public :: public_foot" ><div style="text-align:center;">	<p><a href="http://www.mengxuegu.com/" target="_blank">梦学谷 www.mengxuegu.com</a> 版权所有</p></div></footer>
+<!--
+	<script src="js/time.js"></script>
+	-->
+
+</body>
+</html>

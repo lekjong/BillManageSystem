@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org" >
+<head lang="en" th:replace="main/public :: head_title">
+</head>
+
+<body>
+<!--头部-->
+<header th:replace="main/public :: head_right" class="publicHeader">
+</header>
+
+<!--时间-->
+<section  th:replace="main/public :: public_time"  class="publicTime">
+</section>
+
+<!--主体内容-->
+    <section class="publicMian ">
+        <div class="left" th:replace="main/public :: main_left(activeParam='bill')">
+        </div>
+        <div class="right">
+            <div class="location">
+                <strong>你现在所在的位置是:</strong>
+                <span>账单管理页面</span>
+            </div>
+			<form id="searchForm" th:action="@{/bills}">
+            <div class="search">
+                <span>商品名称：</span>
+                <input name="billName" th:name="billName" th:value="${billName}" type="text" placeholder="请输入商品的名称"/>
+                
+                <span>供应商：</span>
+                <select name="pid" >
+                    <option value="">--请选择--</option>
+                    <!--根据供应商列表迭代选择项，并通过value值传递给控制器并返回的pid判断哪一项被选定，以用来回显-->
+                    <option  th:selected="${sup.sid == sid}" th:each="sup:${suppliers}" th:value="${sup.sid}" th:text="${sup.supplierName}" >
+                        北京市粮油总公司</option>
+                </select>
+
+                <span>是否付款：</span>
+                <select name="pay">
+                    <option value="">--请选择--</option>
+                    <!--pay==0时，对于pay!=""的判断会引起该查询条件无法正常拼接，应丢掉该判断或添加 or pay==0 -->
+                    <option value="0" th:selected="${pay == 0}">未付款</option>
+					<option value="1" th:selected="${pay == 1}">已付款</option>
+                </select>
+
+                <input type="button"  onclick="$('#searchForm').submit()"  value="查询"/>
+
+                <a th:href="@{/addBill.html}" href="../bill/add.html">添加帐单</a>
+            </div>
+			</form>
+            <!--账单表格 样式和供应商公用-->
+            <table class="providerTable" cellpadding="0" cellspacing="0">
+                <tr class="firstTr">
+                    <th width="10%">账单编码</th>
+                    <th width="20%">商品名称</th>
+                    <th width="10%">供应商</th>
+                    <th width="10%">总金额</th>
+                    <th width="10%">是否付款</th>
+                    <th width="10%">创建时间</th>
+                    <th width="30%">操作</th>
+                </tr>
+                <tr th:each="bill:${billSupList}">
+                    <td th:text="${bill.billCode}">PRO-CODE—001</td>
+                    <td th:text="${bill.billName}">测试供应商001</td>
+                    <td th:text="${bill.supplierName}">北京市粮油总公司</td>
+                    <td th:text="${bill.price}">22.00</td>
+                    <td th:text="${bill.pay ==1 ?'已付款':'未付款'}">未付款</td>
+                    <td th:text="${#dates.format(bill.createDate,'yyyy-MM-dd hh:mm')}">2015-11-12</td>
+                    <td>
+                        <a th:href="@{/bill/}+${bill.bid}" href="view.html"><img th:src="@{/img/read.png}" alt="查看" title="查看"/></a>
+                        <a th:href="@{/bill/}+${bill.bid}+'?type=update' " ><img th:src="@{/img/xiugai.png}" alt="修改" title="修改"/></a>
+                        <!--为了便于利用公共的删除表格，将不同的action参数动态的绑定到删除表格上-->
+                        <a href="#" th:attr="del_url=@{/bill/}+${bill.bid}" class="delete"><img th:src="@{/img/schu.png}"alt="删除" title="删除"/></a>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+    </section>
+
+
+	<!--点击删除按钮后弹出的页面-->
+	<div class="zhezhao"></div>
+	<form method="post" id="deleteForm">
+		<input type="hidden" name="_method" value="delete">
+		<div class="remove" id="removeProv">
+		   <div class="removerChid">
+			   <h2>提示</h2>
+			   <div class="removeMain" >
+				   <p>你确定要删除吗？</p>
+				   <a href="#" id="yes">确定</a>
+				   <a href="#" id="no">取消</a>
+			   </div>
+		   </div>
+		</div>
+	</form>
+	
+	<footer class="footer" th:replace="main/public :: public_foot" ></footer>
+
+	<script th:src="@{/js/jquery.js}"></script>
+	<script th:src="@{/js/js.js}"></script>
+<!--
+	<script src="js/time.js"></script>
+	-->
+
+</body>
+</html>

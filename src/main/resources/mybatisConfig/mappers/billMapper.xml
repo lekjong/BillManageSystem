@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lkq.billmanagesystem.dao.BillMapper">
+
+    <select id="getBills"  parameterType="com.lkq.billmanagesystem.entities.Bill"
+                           resultType="com.lkq.billmanagesystem.entities.BillSupplier">
+
+        select b.*,s.supplier_name from t_bill b left join t_supplier s on b.sid = s.sid  where 1=1
+
+        <if test='billName != null and billName != "" '>
+
+        and bill_name like '%${billName}%'
+
+        </if>
+
+        <if test='sid != null and sid != "" '>
+
+            and b.sid = #{sid}
+
+        </if>
+
+        <!--java代码中传递的整数0在mybatis中被识别成null-->
+        <if test='(pay!= null and pay!="") or pay == 0 '>
+
+            and b.pay = #{pay}
+
+        </if>
+        limit 10;
+
+    </select>
+
+
+
+
+    <select id="findBillByBid" parameterType="java.lang.Integer" resultType="com.lkq.billmanagesystem.entities.BillSupplier">
+
+    select b.*,s.supplier_name from  t_bill b left join  t_supplier s on b.sid=s.sid where b.bid = #{bid}
+
+    </select>
+
+
+
+    <insert id="addBill" parameterType="com.lkq.billmanagesystem.entities.Bill" >
+
+    INSERT INTO `t_bill` (
+      `bid`,
+      `bill_code`,
+      `bill_name`,
+      `bill_com`,
+      `bill_num`,
+      `price`,
+      `pay`,
+      `sid`,
+      `create_date`
+    )
+    VALUES(
+      #{bid},
+      #{billCode},
+      #{billName},
+      #{billCom},
+      #{billNum},
+      #{price},
+      #{pay},
+      #{sid},
+      now()
+    )
+
+    </insert>
+
+
+
+    <update id="updateBill" parameterType="com.lkq.billmanagesystem.entities.Bill">
+
+    UPDATE  t_bill  SET
+      `bid` = #{bid},
+      `bill_code` =  #{billCode},
+      `bill_name` = #{billName},
+      `bill_com` = #{billCom},
+      `bill_num` = #{billNum},
+      `price` = #{price},
+      `pay` = #{pay},
+      `sid` = #{sid},
+      `create_date` = now()
+    WHERE `bid` = #{bid}
+
+    </update>
+
+
+    <delete id="deleteBillByBid" parameterType="java.lang.Integer">
+
+      delete  from t_bill where bid = #{bid}
+
+    </delete>
+
+
+</mapper>

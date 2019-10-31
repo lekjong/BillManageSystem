@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>系统登录 - BMS账单管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body class="login_bg">
+    <section class="loginBox">
+        <header class="loginHeader">
+            <h1>BMS账单管理系统</h1>
+        </header>
+        <section class="loginCont">
+            <div style="color:red; margin-left: 130px"
+                 th:if="not ${#strings.isEmpty(msg)}" th:text="${msg}"
+            >用户名错误！</div>
+            <form  class="loginForm" th:action="@{/login}" th:method="post" >
+
+                <!--  th:method="post"  -->
+                <div class="inputbox">
+                    <label for="user" th:text="#{login.userName}">Username</label>
+                    <input id="user" type="text" name="username"  required/>
+                </div>
+                <div class="inputbox">
+                    <label for="mima" th:text="#{login.password}">Password</label>
+                    <input id="mima" type="password" name="password"  required/>
+                </div>
+				<div class="subBtn">
+						<input type="checkbox" name="rememberMe"> [[#{login.rememberme}]]
+                </div>
+				<br/>
+                <div class="subBtn">
+                    <input type="submit" th:value="#{login.submit}" value="Sign" />
+                    <input type="reset" th:value="#{login.reset}" value="Reset"/>
+                </div>
+				<br/>
+				<div style="margin-left: 100px;">
+                    <!--模板会将()转换为？+请求参数的形式,也可直接拼接 -->
+                    <a href="#" th:href="@{/toLogin}"+"?lc='zh_CN'" >中文</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="" th:href="@{/toLogin(lc='en_US')}">English</a>
+                </div>
+            </form>
+        </section>
+    </section>
+</body>
+</HTML>

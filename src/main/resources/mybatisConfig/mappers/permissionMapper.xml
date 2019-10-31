@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lkq.billmanagesystem.dao.PermissionMapper" >
+
+    <!--多表联合查询  权限结果 <<==权限id<<== 角色id<<== 用户id
+     -->
+    <select id="findPermissionByUserId" resultType="com.lkq.billmanagesystem.entities.Permission">
+    select *  from t_permission where pid in (
+    select pid from t_role_permission where rid in(
+    select rid from t_role_user where uid=#{uid}
+    ))
+
+    </select>
+</mapper>

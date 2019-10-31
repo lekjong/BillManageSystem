@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:replace="main/public :: head_title" >
+</head>
+
+<body>
+<!--头部-->
+<header class="publicHeader" th:replace="main/public :: head_right">
+</header>
+
+<!--时间-->
+<section class="publicTime" th:replace="main/public :: public_time">
+</section>
+
+<!--主体内容-->
+<section class="publicMian ">
+    <div class="left" th:replace="main/public :: main_left">
+    </div>
+
+    <div class="right">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>供应商管理页面 >> 供应商修改页</span>
+        </div>
+        <div class="supplierAdd">
+            <form  id="updateForm" th:action="@{/supplier/} + ${supplier.sid}" th:method="post">
+
+
+             <!--该隐藏框用于使用非get及post方法发送请求时,由hiddenHttpMethodFilter处理，springboot中以实现自动配置-->
+                <input  type="hidden"  name="_method"  value="put" >
+                <!--div的class 为error是验证错误，ok是验证成功-->
+                <!--placeholder的数据由数据库查找后获取，这里无法直接识别-->
+                <div class="">
+                    <label for="supplierCode">供应商代码：</label>
+                    <input th:type="text" th:name="supplierCode" th:value="${supplier.supplierCode}" id="supplierCode" th:placeholder="供应商代码"/>
+                    <span >*</span>
+                </div>
+
+                <div class="">
+                    <label for="supplierName">供应商名称：</label>
+                    <input type="text" th:name="supplierName" th:value="${supplier.supplierName}" id="supplierName" th:placeholder="供应商名称"/>
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="contact">联系人：</label>
+                    <input type="text" th:name="contact" th:value="${supplier.contact}" id="contact" th:placeholder="联系人"/>
+                    <span>*</span>
+
+                </div>
+                <div>
+                    <label for="phone">联系电话：</label>
+                    <input type="text" th:name="phone"  id="phone" th:value="${supplier.phone}" th:placeholder="电话"/>
+                    <span></span>
+                </div>
+                <div>
+                    <label for="address">联系地址：</label>
+                    <input type="text" th:name="address" th:value="${supplier.address}" id="address" th:placeholder="地址"/>
+                    <span></span>
+
+                </div>
+                <div>
+                    <label for="fax">传真：</label>
+                    <input type="text" th:name="fax" th:value="${supplier.fax}"  id="fax" th:placeholder="传真"/>
+                    <span></span>
+
+                </div>
+                <div>
+                    <label for="description">描述：</label>
+                    <input type="text" th:name="description" th:value="${supplier.description}" id="description" th:placeholder="描述"/>
+                    <span></span>
+
+                </div>
+                <div class="supplierAddBtn">
+                    <!--<a href="#">保存</a>-->
+                    <!--<a href="providerList.html">返回</a>-->
+                    <input type="button" value="保存" onclick="$('#updateForm').submit()"/>
+                    <input type="button" value="返回" onclick="history.back(-1)"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+<footer class="footer" th:replace="main/public :: public_foot"><div style="text-align:center;">	<p><a href="http://www.mengxuegu.com/" target="_blank">梦学谷 www.mengxuegu.com</a> 版权所有</p></div></footer>
+<script src="../js/jquery.js"></script>
+<!--
+	<script src="js/time.js"></script>
+	-->
+</body>
+</html>
